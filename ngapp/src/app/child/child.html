@@ -1,0 +1,5 @@
+@for (state of states(); track state) {
+  <button (click)="select(state)">{{ state }}</button>
+} @empty {
+  <div>States are empty</div>
+}
