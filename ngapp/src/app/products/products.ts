@@ -1,23 +1,31 @@
 import { Component, inject, signal } from '@angular/core';
 import { Product } from '../models/product';
 import { ProductService } from '../product.service';
+import { ProductCard } from '../product-card/product-card';
 
 @Component({
   selector: 'app-products',
-  imports: [],
+  imports: [ProductCard],
   templateUrl: './products.html',
   styleUrl: './products.css',
 })
 export class Products {
   private service = inject(ProductService);
 
-  product = signal<Product | null>(null);
+  products = signal<Product[]>([]);
+  loading = signal(true);
   error = signal('');
 
   constructor() {
-    this.service.getProduct(1).subscribe({
-      next: (data) => this.product.set(data),
-      error: () => this.error.set('Unable to load the product'),
+    this.service.getProducts(12, 0).subscribe({
+      next: (res) => {
+        this.products.set(res.products);
+        this.loading.set(false);
+      },
+      error: () => {
+        this.error.set('Unable to load products');
+        this.loading.set(false);
+      },
     });
   }
 }

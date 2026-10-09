@@ -1,7 +1,15 @@
-@if (error()) {
-  <p>{{ error() }}</p>
-} @else if (product(); as p) {
-  <p>{{ p.title }} - {{ p.description }}</p>
-} @else {
-  <p>Loading product...</p>
-}
+<div class="container py-4">
+  @if (loading()) {
+    <div class="text-center">Loading...</div>
+  } @else if (error()) {
+    <div class="alert alert-danger">{{ error() }}</div>
+  } @else {
+    <div class="row g-3">
+      @for (p of products(); track p.id) {
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <app-product-card [product]="p" />
+        </div>
+      }
+    </div>
+  }
+</div>

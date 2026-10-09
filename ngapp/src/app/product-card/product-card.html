@@ -1,0 +1,8 @@
+<div class="card h-100">
+  <img [src]="product().thumbnail" class="card-img-top" [alt]="product().title" />
+  <div class="card-body">
+    <h5 class="card-title">{{ product().title }}</h5>
+    <p class="card-text">{{ product().description.slice(0, 80) }}...</p>
+    <p class="fw-bold">{{ product().price }} $</p>
+  </div>
+</div>
