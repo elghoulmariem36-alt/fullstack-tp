@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 import { Header } from './header/header';
 
 @Component({
@@ -8,5 +8,15 @@ import { Header } from './header/header';
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
-export class App {}
+export class App {
+  private router = inject(Router);
+
+  gotoLogin() {
+    this.router.navigate(['/login']);
+  }
+
+  gotoContact() {
+    this.router.navigate(['/contact']);
+  }
+}
 

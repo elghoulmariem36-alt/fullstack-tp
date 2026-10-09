@@ -1,9 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  imports: [],
   selector: 'app-contact',
-  styleUrl: './contact.css',
+  imports: [],
   templateUrl: './contact.html',
+  styleUrl: './contact.css',
 })
-export class Contact {}
+export class Contact {
+  id: string | null = null;
+  private route = inject(ActivatedRoute);
+
+  constructor() {
+    this.route.paramMap.subscribe((params) => {
+      this.id = params.get('id');
+    });
+  }
+}
