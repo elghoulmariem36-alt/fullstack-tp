@@ -1,0 +1,7 @@
+@if (error()) {
+  <p>{{ error() }}</p>
+} @else if (product(); as p) {
+  <p>{{ p.title }} - {{ p.description }}</p>
+} @else {
+  <p>Loading product...</p>
+}
