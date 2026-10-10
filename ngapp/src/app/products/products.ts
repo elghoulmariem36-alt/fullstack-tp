@@ -11,15 +11,25 @@ import { ProductCard } from '../product-card/product-card';
 })
 export class Products {
   private service = inject(ProductService);
+  readonly limit = 12;
 
   products = signal<Product[]>([]);
   loading = signal(true);
   error = signal('');
+  skip = signal(0);
+  total = signal(0);
 
   constructor() {
-    this.service.getProducts(12, 0).subscribe({
+    this.load();
+  }
+
+  load() {
+    this.loading.set(true);
+    this.error.set('');
+    this.service.getProducts(this.limit, this.skip()).subscribe({
       next: (res) => {
         this.products.set(res.products);
+        this.total.set(res.total);
         this.loading.set(false);
       },
       error: () => {
@@ -27,5 +37,19 @@ export class Products {
         this.loading.set(false);
       },
     });
+  }
+
+  previous() {
+    if (this.skip() > 0) {
+      this.skip.update((s) => s - this.limit);
+      this.load();
+    }
+  }
+
+  next() {
+    if (this.skip() + this.limit < this.total()) {
+      this.skip.update((s) => s + this.limit);
+      this.load();
+    }
   }
 }
