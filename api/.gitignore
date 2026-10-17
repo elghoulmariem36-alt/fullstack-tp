@@ -4,3 +4,7 @@ dist
 src/generated
 
 /src/generated/prisma
+.windsurf
+.agents
+.claude
+skills-lock.json
