@@ -1,0 +1,41 @@
+@base = http://localhost:4000/api
+
+### liste avec pagination
+GET {{base}}/products?limit=5&skip=0
+
+### recherche et filtre
+GET {{base}}/products?q=phone&category=smartphones
+
+### un produit
+GET {{base}}/products/1
+
+### creer
+POST {{base}}/products
+Content-Type: application/json
+
+{
+  "title": "My product",
+  "description": "Created from the lab",
+  "price": 19.99,
+  "thumbnail": "https://cdn.dummyjson.com/product-images/1/thumbnail.webp",
+  "stock": 10,
+  "category": "lab"
+}
+
+### corps invalide -> 400
+POST {{base}}/products
+Content-Type: application/json
+
+{ "title": "x", "price": -5 }
+
+### modifier
+PATCH {{base}}/products/1
+Content-Type: application/json
+
+{ "price": 9.5 }
+
+### supprimer (mets l'id du produit cree)
+DELETE {{base}}/products/101
+
+### inexistant -> 404
+GET {{base}}/products/99999

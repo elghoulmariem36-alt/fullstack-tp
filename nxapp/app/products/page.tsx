@@ -21,7 +21,8 @@ export default async function Products({
   const skip = (current - 1) * LIMIT;
 
   const response = await fetch(
-    `https://dummyjson.com/products?limit=${LIMIT}&skip=${skip}`
+    `${process.env.API_URL}/products?limit=${LIMIT}&skip=${skip}`,
+    { cache: "no-store" }
   );
 
   if (!response.ok) {
