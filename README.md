@@ -55,3 +55,12 @@ Voir le dossier `screenshots/`.
 ## Technologies
 
 Angular, Next.js (App Router), TypeScript, Bootstrap, Tailwind CSS, Docker, Nginx.
+## Images Docker Hub
+
+- https://hub.docker.com/r/elghoulmariem/ngapp
+- https://hub.docker.com/r/elghoulmariem/nxapp
+
+```bash
+docker run -p 8080:80 elghoulmariem/ngapp:1.0     # http://localhost:8080
+docker run -p 3000:3000 elghoulmariem/nxapp:1.0   # http://localhost:3000
+```
