@@ -7,6 +7,7 @@ export const listQuery = z.object({
   skip: z.coerce.number().int().min(0).default(0),
   q: z.string().trim().optional(),
   category: z.string().optional(),
+  order: z.enum(["asc", "desc"]).default("asc"),
 });
 
 export const productBody = z.object({

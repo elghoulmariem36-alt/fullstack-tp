@@ -1,0 +1,62 @@
+<div class="container py-4">
+  <h2 class="mb-3">{{ editingId() ? 'Edit product #' + editingId() : 'New product' }}</h2>
+
+  @if (message()) {
+    <div class="alert alert-success">{{ message() }}</div>
+  }
+  @if (error()) {
+    <div class="alert alert-danger">{{ error() }}</div>
+  }
+
+  <form #f="ngForm" (ngSubmit)="save()" class="row g-2 mb-4">
+    <div class="col-md-6">
+      <input class="form-control" name="title" [(ngModel)]="form.title" placeholder="Title" required minlength="2" />
+    </div>
+    <div class="col-md-6">
+      <input class="form-control" name="category" [(ngModel)]="form.category" placeholder="Category" required />
+    </div>
+    <div class="col-12">
+      <textarea class="form-control" name="description" [(ngModel)]="form.description" placeholder="Description" required></textarea>
+    </div>
+    <div class="col-md-3">
+      <input type="number" step="0.01" min="0.01" class="form-control" name="price" [(ngModel)]="form.price" placeholder="Price" required />
+    </div>
+    <div class="col-md-3">
+      <input type="number" min="0" class="form-control" name="stock" [(ngModel)]="form.stock" placeholder="Stock" required />
+    </div>
+    <div class="col-md-6">
+      <input type="url" class="form-control" name="thumbnail" [(ngModel)]="form.thumbnail" placeholder="Image URL" required />
+    </div>
+    <div class="col-12 d-flex gap-2">
+      <button class="btn btn-primary" type="submit" [disabled]="f.invalid">
+        {{ editingId() ? 'Update' : 'Create' }}
+      </button>
+      @if (editingId()) {
+        <button class="btn btn-outline-secondary" type="button" (click)="cancel()">Cancel</button>
+      }
+    </div>
+  </form>
+
+  <div class="table-responsive">
+    <table class="table align-middle">
+      <thead>
+        <tr><th>ID</th><th>Title</th><th>Category</th><th>Price</th><th>Stock</th><th></th></tr>
+      </thead>
+      <tbody>
+        @for (p of products(); track p.id) {
+          <tr>
+            <td>{{ p.id }}</td>
+            <td>{{ p.title }}</td>
+            <td>{{ p.category.name }}</td>
+            <td>{{ p.price }} $</td>
+            <td>{{ p.stock }}</td>
+            <td class="text-end">
+              <button class="btn btn-sm btn-outline-primary me-1" (click)="edit(p)">Edit</button>
+              <button class="btn btn-sm btn-outline-danger" (click)="remove(p)">Delete</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
