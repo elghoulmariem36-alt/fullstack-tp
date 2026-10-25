@@ -1,0 +1,18 @@
+<div class="d-flex gap-2 mb-3">
+  <button class="btn btn-success" [disabled]="!allowed()" (click)="onSwitchOnAll()">
+    Switch on all
+  </button>
+  <button class="btn btn-outline-danger" (click)="onSwitchOffAll()">Switch off all</button>
+</div>
+
+<ul class="list-unstyled">
+  @for (a of appareilList; track a.name; let i = $index) {
+    <app-appareil
+      [index]="i"
+      [appareilName]="a.name"
+      [appareilStatus]="a.status"
+      (switchOn)="onSwitchOn(i)"
+      (switchOff)="onSwitchOff(i)"
+    />
+  }
+</ul>

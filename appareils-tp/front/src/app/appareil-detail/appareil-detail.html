@@ -1,0 +1,13 @@
+<a class="btn btn-warning mb-3" routerLink="/appareils">Back</a>
+
+@if (appareil(); as a) {
+  <h2>{{ a.name }}</h2>
+  <p>
+    Status:
+    <span [class.text-success]="a.status === 'On'" [class.text-danger]="a.status === 'Off'">
+      {{ a.status }}
+    </span>
+  </p>
+} @else {
+  <div class="alert alert-warning">Appliance not found</div>
+}
