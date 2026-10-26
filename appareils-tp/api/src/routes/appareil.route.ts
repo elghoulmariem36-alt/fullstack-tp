@@ -7,7 +7,7 @@ export const appareilRouter = Router();
 
 // READ all (optional filter: ?status=On or ?status=Off)
 appareilRouter.get("/", validate(listQuery, "query"), async (_req, res) => {
-  res.status(200).json(await Appareil.find(res.locals.query));
+  res.status(200).json(await Appareil.find(res.locals.query).populate("room"));
 });
 
 // Switch all appliances on or off
@@ -18,7 +18,7 @@ appareilRouter.patch("/switch-all", validate(switchBody), async (_req, res) => {
 
 // READ one
 appareilRouter.get("/:id", validate(idParam, "params"), async (_req, res) => {
-  const appareil = await Appareil.findById(res.locals.params.id);
+  const appareil = await Appareil.findById(res.locals.params.id).populate("room");
   if (!appareil) return res.status(404).json({ error: "Appareil not found" });
   res.status(200).json(appareil);
 });
@@ -26,15 +26,16 @@ appareilRouter.get("/:id", validate(idParam, "params"), async (_req, res) => {
 // CREATE
 appareilRouter.post("/", validate(appareilBody), async (_req, res) => {
   const appareil = await Appareil.create(res.locals.body);
+  await appareil.populate("room");
   res.status(201).json(appareil);
 });
 
-// UPDATE
+// UPDATE (a missing "room" field leaves the room unchanged)
 appareilRouter.put("/:id", validate(idParam, "params"), validate(appareilBody), async (_req, res) => {
   const appareil = await Appareil.findByIdAndUpdate(res.locals.params.id, res.locals.body, {
     returnDocument: "after",
     runValidators: true,
-  });
+  }).populate("room");
   if (!appareil) return res.status(404).json({ error: "Appareil not found" });
   res.status(200).json(appareil);
 });

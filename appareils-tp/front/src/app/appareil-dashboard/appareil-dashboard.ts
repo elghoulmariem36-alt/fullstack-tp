@@ -1,7 +1,7 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Appareil } from '../appareil/appareil';
-import { AppareilModel } from '../models/appareil.model';
+import { AppareilModel, Room } from '../models/appareil.model';
 import { AppareilService } from '../services/appareil.service';
 
 @Component({
@@ -14,16 +14,18 @@ export class AppareilDashboard implements OnInit {
   private service = inject(AppareilService);
 
   appareils = signal<AppareilModel[]>([]);
+  rooms = signal<Room[]>([]);
   loading = signal(true);
   error = signal('');
   allowed = signal(false);
-  form: { name: string; status: 'On' | 'Off' } = { name: '', status: 'Off' };
+  form: { name: string; status: 'On' | 'Off'; room: string } = { name: '', status: 'Off', room: '' };
 
   constructor() {
     setTimeout(() => this.allowed.set(true), 4000);
   }
 
   ngOnInit() {
+    this.service.getRooms().subscribe((r) => this.rooms.set(r));
     this.load();
   }
 
@@ -44,8 +46,8 @@ export class AppareilDashboard implements OnInit {
   private fail = () => this.error.set('The request failed');
 
   add() {
-    const body = { ...this.form };
-    this.form = { name: '', status: 'Off' };
+    const body = { name: this.form.name, status: this.form.status, room: this.form.room || null };
+    this.form = { name: '', status: 'Off', room: '' };
     this.service.addAppareil(body).subscribe({ next: () => this.load(), error: this.fail });
   }
 

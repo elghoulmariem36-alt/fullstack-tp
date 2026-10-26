@@ -14,6 +14,9 @@
           [class.text-danger]="appareil().status === 'Off'"
         >
           {{ appareil().name }} - {{ appareil().status }}
+          @if (appareil().room; as r) {
+            <span class="badge text-bg-info ms-2">{{ r.name }}</span>
+          }
         </h5>
       }
     </div>

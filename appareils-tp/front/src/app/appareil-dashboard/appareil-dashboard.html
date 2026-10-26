@@ -3,13 +3,21 @@
 }
 
 <form #f="ngForm" (ngSubmit)="add()" class="row g-2 mb-4">
-  <div class="col-sm-6">
+  <div class="col-sm-4">
     <input class="form-control" name="name" [(ngModel)]="form.name" placeholder="Appliance name" required />
   </div>
-  <div class="col-sm-3">
+  <div class="col-sm-2">
     <select class="form-select" name="status" [(ngModel)]="form.status">
       <option value="Off">Off</option>
       <option value="On">On</option>
+    </select>
+  </div>
+  <div class="col-sm-3">
+    <select class="form-select" name="room" [(ngModel)]="form.room">
+      <option value="">No room</option>
+      @for (r of rooms(); track r._id) {
+        <option [value]="r._id">{{ r.name }}</option>
+      }
     </select>
   </div>
   <div class="col-sm-3">
