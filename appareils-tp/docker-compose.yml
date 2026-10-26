@@ -6,6 +6,22 @@ services:
       - "27017:27017"
     volumes:
       - mongodata:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: ./api
+    environment:
+      MONGODB_URI: mongodb://mongo:27017/appareilsDB
+      PORT: 3001
+    depends_on:
+      mongo:
+        condition: service_healthy
+    ports:
+      - "3001:3001"
 
 volumes:
   mongodata:

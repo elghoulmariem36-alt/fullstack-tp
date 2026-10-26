@@ -8,6 +8,10 @@ export const appareilBody = z.object({
 
 export const switchBody = appareilBody.pick({ status: true });
 
+export const listQuery = z.object({
+  status: z.enum(["On", "Off"]).optional(),
+});
+
 export const idParam = z.object({
   id: z.string().refine((v) => mongoose.isValidObjectId(v), "Invalid id"),
 });
