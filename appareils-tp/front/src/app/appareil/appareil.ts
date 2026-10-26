@@ -1,6 +1,7 @@
-import { Component, input, model, output } from '@angular/core';
+import { Component, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { AppareilModel } from '../models/appareil.model';
 
 @Component({
   selector: 'app-appareil',
@@ -9,9 +10,23 @@ import { RouterLink } from '@angular/router';
   styleUrl: './appareil.css',
 })
 export class Appareil {
-  index = input.required<number>();
-  appareilName = model.required<string>();
-  appareilStatus = input.required<string>();
+  appareil = input.required<AppareilModel>();
   switchOn = output<void>();
   switchOff = output<void>();
+  remove = output<void>();
+  rename = output<string>();
+
+  editing = signal(false);
+  draft = '';
+
+  startEdit() {
+    this.draft = this.appareil().name;
+    this.editing.set(true);
+  }
+
+  save() {
+    const name = this.draft.trim();
+    if (name) this.rename.emit(name);
+    this.editing.set(false);
+  }
 }

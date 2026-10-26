@@ -1,18 +1,41 @@
-<div class="d-flex gap-2 mb-3">
-  <button class="btn btn-success" [disabled]="!allowed()" (click)="onSwitchOnAll()">
-    Switch on all
-  </button>
-  <button class="btn btn-outline-danger" (click)="onSwitchOffAll()">Switch off all</button>
-</div>
+@if (error()) {
+  <div class="alert alert-danger">{{ error() }}</div>
+}
 
-<ul class="list-unstyled">
-  @for (a of appareilList; track a.name; let i = $index) {
-    <app-appareil
-      [index]="i"
-      [appareilName]="a.name"
-      [appareilStatus]="a.status"
-      (switchOn)="onSwitchOn(i)"
-      (switchOff)="onSwitchOff(i)"
-    />
-  }
-</ul>
+<form #f="ngForm" (ngSubmit)="add()" class="row g-2 mb-4">
+  <div class="col-sm-6">
+    <input class="form-control" name="name" [(ngModel)]="form.name" placeholder="Appliance name" required />
+  </div>
+  <div class="col-sm-3">
+    <select class="form-select" name="status" [(ngModel)]="form.status">
+      <option value="Off">Off</option>
+      <option value="On">On</option>
+    </select>
+  </div>
+  <div class="col-sm-3">
+    <button class="btn btn-primary w-100" type="submit" [disabled]="f.invalid">Add</button>
+  </div>
+</form>
+
+@if (loading()) {
+  <p>Loading...</p>
+} @else {
+  <div class="d-flex gap-2 mb-3">
+    <button class="btn btn-success" [disabled]="!allowed()" (click)="onSwitchOnAll()">Switch on all</button>
+    <button class="btn btn-outline-danger" (click)="onSwitchOffAll()">Switch off all</button>
+  </div>
+
+  <ul class="list-unstyled">
+    @for (a of appareils(); track a._id) {
+      <app-appareil
+        [appareil]="a"
+        (switchOn)="setStatus(a, 'On')"
+        (switchOff)="setStatus(a, 'Off')"
+        (rename)="rename(a, $event)"
+        (remove)="remove(a)"
+      />
+    } @empty {
+      <p>No appliances yet.</p>
+    }
+  </ul>
+}

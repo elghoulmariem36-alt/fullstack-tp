@@ -1,30 +1,35 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
+import { AppareilModel } from '../models/appareil.model';
 
 @Injectable({ providedIn: 'root' })
 export class AppareilService {
-  appareilList = [
-    { name: 'Washing machine', status: 'Off' },
-    { name: 'TV', status: 'On' },
-    { name: 'Air conditioner', status: 'Off' },
-    { name: 'PC', status: 'On' },
-    { name: 'Microwave', status: 'Off' },
-    { name: 'Oven', status: 'On' },
-    { name: 'Vacuum cleaner', status: 'Off' },
-  ];
+  private http = inject(HttpClient);
+  private apiUrl = environment.apiUrl;
 
-  switchOnAll() {
-    this.appareilList.forEach((a) => (a.status = 'On'));
+  getAppareils(): Observable<AppareilModel[]> {
+    return this.http.get<AppareilModel[]>(this.apiUrl);
   }
 
-  switchOffAll() {
-    this.appareilList.forEach((a) => (a.status = 'Off'));
+  getAppareil(id: string): Observable<AppareilModel> {
+    return this.http.get<AppareilModel>(`${this.apiUrl}/${id}`);
   }
 
-  switchOnOne(index: number) {
-    this.appareilList[index].status = 'On';
+  addAppareil(appareil: Pick<AppareilModel, 'name' | 'status'>): Observable<AppareilModel> {
+    return this.http.post<AppareilModel>(this.apiUrl, appareil);
   }
 
-  switchOffOne(index: number) {
-    this.appareilList[index].status = 'Off';
+  updateAppareil(id: string, appareil: Pick<AppareilModel, 'name' | 'status'>): Observable<AppareilModel> {
+    return this.http.put<AppareilModel>(`${this.apiUrl}/${id}`, appareil);
+  }
+
+  deleteAppareil(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  switchAll(status: 'On' | 'Off'): Observable<{ modified: number }> {
+    return this.http.patch<{ modified: number }>(`${this.apiUrl}/switch-all`, { status });
   }
 }

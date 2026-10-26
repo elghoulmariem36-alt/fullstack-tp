@@ -1,22 +1,38 @@
 import { Component, inject, signal } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { AppareilModel } from '../models/appareil.model';
 import { AppareilService } from '../services/appareil.service';
 
 @Component({
   selector: 'app-appareil-detail',
-  imports: [RouterLink],
+  imports: [RouterLink, DatePipe],
   templateUrl: './appareil-detail.html',
   styleUrl: './appareil-detail.css',
 })
 export class AppareilDetail {
   private route = inject(ActivatedRoute);
-  private appareilService = inject(AppareilService);
-  appareil = signal<{ name: string; status: string } | null>(null);
+  private service = inject(AppareilService);
+
+  appareil = signal<AppareilModel | null>(null);
+  loading = signal(true);
+  error = signal('');
 
   constructor() {
     this.route.paramMap.subscribe((params) => {
-      const id = Number(params.get('id'));
-      this.appareil.set(this.appareilService.appareilList[id] ?? null);
+      this.loading.set(true);
+      this.error.set('');
+      this.service.getAppareil(params.get('id') ?? '').subscribe({
+        next: (a) => {
+          this.appareil.set(a);
+          this.loading.set(false);
+        },
+        error: () => {
+          this.appareil.set(null);
+          this.error.set('Appliance not found');
+          this.loading.set(false);
+        },
+      });
     });
   }
 }

@@ -1,6 +1,10 @@
 <a class="btn btn-warning mb-3" routerLink="/appareils">Back</a>
 
-@if (appareil(); as a) {
+@if (loading()) {
+  <p>Loading...</p>
+} @else if (error()) {
+  <div class="alert alert-warning">{{ error() }}</div>
+} @else if (appareil(); as a) {
   <h2>{{ a.name }}</h2>
   <p>
     Status:
@@ -8,6 +12,8 @@
       {{ a.status }}
     </span>
   </p>
-} @else {
-  <div class="alert alert-warning">Appliance not found</div>
+  <p class="text-muted">
+    Created: {{ a.createdAt | date: 'medium' }}<br />
+    Updated: {{ a.updatedAt | date: 'medium' }}
+  </p>
 }
