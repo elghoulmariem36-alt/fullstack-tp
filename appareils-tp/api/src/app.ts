@@ -7,9 +7,14 @@ import { roomRouter } from "./routes/room.route.js";
 
 export const app = express();
 
+const allowedOrigins = (process.env.CORS_ORIGINS ?? "http://localhost:4200,http://localhost:4201")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
 app.use(helmet());
 app.use(morgan("dev"));
-app.use(cors({ origin: "http://localhost:4200" }));
+app.use(cors({ origin: allowedOrigins }));
 app.use(express.json());
 
 app.get("/api/health", (_req, res) => {
