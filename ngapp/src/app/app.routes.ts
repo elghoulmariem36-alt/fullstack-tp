@@ -1,15 +1,21 @@
 import { Routes } from '@angular/router';
+import { Home } from './home/home';
 import { Login } from './login/login';
 import { Contact } from './contact/contact';
 import { Products } from './products/products';
 import { ProductDetail } from './product-detail/product-detail';
 import { Admin } from './admin/admin';
+import { Tp1 } from './tp1/tp1';
+import { NotFound } from './not-found/not-found';
 
 export const routes: Routes = [
-  { path: 'login', component: Login },
-  { path: 'contact', component: Contact },
-  { path: 'contact/:id', component: Contact },
-  { path: 'products', component: Products },
-  { path: 'products/:id', component: ProductDetail },
-  { path: 'admin', component: Admin },
+  { path: '', component: Home, title: 'Bazar' },
+  { path: 'products', component: Products, title: 'Catalogue | Bazar' },
+  { path: 'products/:id', component: ProductDetail, title: 'Product | Bazar' },
+  { path: 'contact', component: Contact, title: 'Contact | Bazar' },
+  { path: 'contact/:id', component: Contact, title: 'Contact | Bazar' },
+  { path: 'login', component: Login, title: 'Sign in | Bazar' },
+  { path: 'admin', component: Admin, title: 'Admin | Bazar' },
+  { path: 'tp1', component: Tp1, title: 'TP1 demos | Bazar' },
+  { path: '**', component: NotFound, title: 'Not found | Bazar' },
 ];

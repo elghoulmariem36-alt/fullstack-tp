@@ -1,10 +1,14 @@
-<a [routerLink]="['/products', product().id]" class="text-decoration-none text-dark">
-  <div class="card h-100">
-    <img [src]="product().thumbnail" class="card-img-top" [alt]="product().title" />
-    <div class="card-body">
-      <h5 class="card-title">{{ product().title }}</h5>
-      <p class="card-text">{{ product().description.slice(0, 80) }}...</p>
-      <p class="fw-bold">{{ product().price }} $</p>
+<a [routerLink]="['/products', product().id]" class="pcard" [class.pcard-list]="layout() === 'list'">
+  <div class="pcard-img">
+    <img [src]="product().thumbnail" [alt]="product().title" loading="lazy" />
+  </div>
+  <div class="pcard-body">
+    <span class="pcard-cat">{{ category() }}</span>
+    <h2 class="pcard-title">{{ product().title }}</h2>
+    <p class="pcard-desc">{{ product().description }}</p>
+    <div class="pcard-foot">
+      <span class="pcard-price">{{ product().price | currency }}</span>
+      <span class="badge rounded-pill" [class]="stock().cls">{{ stock().text }}</span>
     </div>
   </div>
 </a>

@@ -1,0 +1,57 @@
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.toolbar input {
+  flex: 1 1 240px;
+}
+
+.sort {
+  width: auto;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chip {
+  padding: 0.3rem 0.85rem;
+  border: 1px solid #d6d3d1;
+  border-radius: 999px;
+  background: #fff;
+  font-size: 0.875rem;
+  text-transform: capitalize;
+}
+
+.chip:hover {
+  border-color: #0d9488;
+  color: #0f766e;
+}
+
+.chip.active {
+  border-color: #0d9488;
+  background: #0d9488;
+  color: #fff;
+}
+
+.chip.reset {
+  border-style: dashed;
+  color: #78716c;
+}
+
+.empty {
+  border: 1px dashed #d6d3d1;
+  background: #fff;
+}
+
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}

@@ -1,30 +1,12 @@
-import { Component, inject } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { Header } from './header/header';
-import { Child } from './child/child';
+import { Footer } from './footer/footer';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Header, Child],
+  imports: [RouterOutlet, Header, Footer],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
-export class App {
-  private router = inject(Router);
-
-  states = ['Tozeur', 'Tunis', 'Nabeul'];
-  chosen = '';
-
-  gotoLogin() {
-    this.router.navigate(['/login']);
-  }
-
-  gotoContact() {
-    this.router.navigate(['/contact/123']);
-  }
-
-  onSelected(state: string) {
-    this.chosen = state;
-  }
-}
-
+export class App {}

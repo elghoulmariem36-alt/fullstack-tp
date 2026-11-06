@@ -1,8 +1,16 @@
-<nav>
-  <a routerLink="/">Home</a>
-  <a routerLink="/login">Login</a>
-  <a routerLink="/contact">Contact</a>
-  <a routerLink="/contact/123">Contact 123</a>
-  <a routerLink="/products">Products</a>
-  <a routerLink="/admin">Admin</a>
-</nav>
+<aside class="sidebar">
+  <div class="sidebar-top">
+    <a class="brand" routerLink="/" (click)="close()">Baz<span>ar</span></a>
+    <button class="menu-toggle d-lg-none" type="button" [attr.aria-expanded]="open()" (click)="toggle()">
+      {{ open() ? 'Close' : 'Menu' }}
+    </button>
+  </div>
+
+  <nav class="sidebar-nav" [class.open]="open()">
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="close()">Home</a>
+    <a routerLink="/products" routerLinkActive="active" (click)="close()">Products</a>
+    <a routerLink="/contact" routerLinkActive="active" (click)="close()">Contact</a>
+    <a routerLink="/admin" routerLinkActive="active" (click)="close()">Admin</a>
+    <a class="signin" routerLink="/login" routerLinkActive="active" (click)="close()">Sign in</a>
+  </nav>
+</aside>

@@ -1,0 +1,20 @@
+<h1 class="fw-bold">TP1 demos</h1>
+<p class="text-secondary">Navigation from code, route parameters and parent to child communication.</p>
+
+<div class="card border-0 shadow-sm mb-4">
+  <div class="card-body">
+    <h2 class="h5 fw-bold">Navigation from code</h2>
+    <div class="d-flex flex-wrap gap-2">
+      <button class="btn btn-primary" (click)="gotoLogin()">Login Page</button>
+      <button class="btn btn-outline-primary" (click)="gotoContact()">Contact Page (id 123)</button>
+    </div>
+  </div>
+</div>
+
+<div class="card border-0 shadow-sm">
+  <div class="card-body">
+    <h2 class="h5 fw-bold">Parent to child</h2>
+    <app-child [states]="states" (selected)="onSelected($event)" />
+    <p class="mt-3 mb-0">Selected: {{ chosen }}</p>
+  </div>
+</div>

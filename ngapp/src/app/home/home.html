@@ -1,0 +1,61 @@
+<section class="intro">
+  <p class="eyebrow mb-2">Welcome to Bazar</p>
+  <h1 class="display-5 fw-bold">Everyday finds, <em>curated.</em></h1>
+  <p class="lead text-secondary col-lg-8">
+    Browse our catalogue, search by name or jump straight to a category.
+  </p>
+  <div class="input-group input-group-lg search">
+    <input
+      #q
+      type="search"
+      class="form-control"
+      placeholder="What are you looking for?"
+      (keyup.enter)="search(q.value)"
+    />
+    <button class="btn btn-primary px-4" type="button" (click)="search(q.value)">Search</button>
+  </div>
+</section>
+
+@if (failed()) {
+  <div class="alert alert-warning mt-4">The catalogue is temporarily unavailable.</div>
+}
+
+<section class="row g-3 my-4">
+  <div class="col-sm-6">
+    <div class="stat">
+      <span class="stat-value">{{ total() }}</span>
+      <span class="stat-label">products</span>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="stat">
+      <span class="stat-value">{{ categories().length }}</span>
+      <span class="stat-label">categories</span>
+    </div>
+  </div>
+</section>
+
+<section class="mb-5">
+  <h2 class="h4 font-serif mb-3">Browse by category</h2>
+  <div class="d-flex flex-wrap gap-2">
+    @for (c of categories(); track c.id) {
+      <a class="chip" routerLink="/products" [queryParams]="{ category: c.name }">
+        {{ label(c.name) }} <small>{{ c._count.products }}</small>
+      </a>
+    }
+  </div>
+</section>
+
+<section>
+  <div class="d-flex justify-content-between align-items-baseline mb-3">
+    <h2 class="h4 font-serif mb-0">Latest arrivals</h2>
+    <a routerLink="/products" [queryParams]="{ order: 'desc' }">View all &rarr;</a>
+  </div>
+  <div class="row g-4">
+    @for (p of latest(); track p.id) {
+      <div class="col-12 col-sm-6 col-lg-3">
+        <app-product-card [product]="p" />
+      </div>
+    }
+  </div>
+</section>

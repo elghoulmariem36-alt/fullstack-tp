@@ -1,9 +1,9 @@
-<app-header />
-
-<button (click)="gotoLogin()">Login Page</button>
-<button (click)="gotoContact()">Contact Page</button>
-
-<app-child [states]="states" (selected)="onSelected($event)" />
-<p>Selected: {{ chosen }}</p>
-
-<router-outlet />
+<div class="app-shell">
+  <app-header />
+  <div class="app-main">
+    <main class="content">
+      <router-outlet />
+    </main>
+    <app-footer />
+  </div>
+</div>
