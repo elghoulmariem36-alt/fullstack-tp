@@ -1,49 +1,92 @@
+<div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+  <div>
+    <p class="eyebrow mb-1">Dashboard</p>
+    <h1 class="h2 fw-bold mb-0">Your appliances</h1>
+  </div>
+  <div class="d-flex gap-2">
+    <button class="btn btn-primary" [disabled]="!allowed()" (click)="switchAllOn()">Switch on all</button>
+    <button class="btn btn-outline-dark" (click)="switchAllOff()">Switch off all</button>
+  </div>
+</div>
+
 @if (error()) {
-  <div class="alert alert-danger">{{ error() }}</div>
+  <div class="alert alert-danger alert-dismissible">
+    {{ error() }}
+    <button type="button" class="btn-close" aria-label="Close" (click)="error.set('')"></button>
+  </div>
 }
 
-<form #f="ngForm" (ngSubmit)="add()" class="row g-2 mb-4">
-  <div class="col-sm-4">
-    <input class="form-control" name="name" [(ngModel)]="form.name" placeholder="Appliance name" required />
-  </div>
-  <div class="col-sm-2">
-    <select class="form-select" name="status" [(ngModel)]="form.status">
-      <option value="Off">Off</option>
-      <option value="On">On</option>
-    </select>
-  </div>
-  <div class="col-sm-3">
-    <select class="form-select" name="room" [(ngModel)]="form.room">
-      <option value="">No room</option>
-      @for (r of rooms(); track r._id) {
-        <option [value]="r._id">{{ r.name }}</option>
-      }
-    </select>
-  </div>
-  <div class="col-sm-3">
-    <button class="btn btn-primary w-100" type="submit" [disabled]="f.invalid">Add</button>
+<div class="row g-3 mb-4">
+  <div class="col-4"><div class="stat"><span class="v">{{ total() }}</span><span class="l">Total</span></div></div>
+  <div class="col-4"><div class="stat on"><span class="v">{{ onCount() }}</span><span class="l">On</span></div></div>
+  <div class="col-4"><div class="stat"><span class="v">{{ offCount() }}</span><span class="l">Off</span></div></div>
+</div>
+
+<form #f="ngForm" (ngSubmit)="add()" class="panel mb-4">
+  <h2 class="h6 fw-bold mb-3">Add an appliance</h2>
+  <div class="row g-2">
+    <div class="col-md-4">
+      <input class="form-control" name="name" [(ngModel)]="form.name" placeholder="Appliance name" required />
+    </div>
+    <div class="col-6 col-md-2">
+      <select class="form-select" name="status" [(ngModel)]="form.status">
+        <option value="Off">Off</option>
+        <option value="On">On</option>
+      </select>
+    </div>
+    <div class="col-6 col-md-3">
+      <select class="form-select" name="room" [(ngModel)]="form.room">
+        <option value="">No room</option>
+        @for (r of rooms(); track r._id) {
+          <option [value]="r._id">{{ r.name }}</option>
+        }
+      </select>
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-primary w-100" type="submit" [disabled]="f.invalid">Add</button>
+    </div>
   </div>
 </form>
 
-@if (loading()) {
-  <p>Loading...</p>
-} @else {
-  <div class="d-flex gap-2 mb-3">
-    <button class="btn btn-success" [disabled]="!allowed()" (click)="onSwitchOnAll()">Switch on all</button>
-    <button class="btn btn-outline-danger" (click)="onSwitchOffAll()">Switch off all</button>
+<div class="filters mb-3">
+  <input
+    class="form-control search"
+    type="search"
+    placeholder="Search..."
+    [value]="query()"
+    (input)="query.set($any($event.target).value)"
+  />
+  <div class="btn-group" role="group" aria-label="Filter by status">
+    <button type="button" class="btn btn-outline-dark" [class.active]="statusFilter() === 'all'" (click)="statusFilter.set('all')">All</button>
+    <button type="button" class="btn btn-outline-dark" [class.active]="statusFilter() === 'On'" (click)="statusFilter.set('On')">On</button>
+    <button type="button" class="btn btn-outline-dark" [class.active]="statusFilter() === 'Off'" (click)="statusFilter.set('Off')">Off</button>
   </div>
-
-  <ul class="list-unstyled">
-    @for (a of appareils(); track a._id) {
-      <app-appareil
-        [appareil]="a"
-        (switchOn)="setStatus(a, 'On')"
-        (switchOff)="setStatus(a, 'Off')"
-        (rename)="rename(a, $event)"
-        (remove)="remove(a)"
-      />
-    } @empty {
-      <p>No appliances yet.</p>
+  <select class="form-select room-select" (change)="roomFilter.set($any($event.target).value)">
+    <option value="">All rooms</option>
+    @for (r of rooms(); track r._id) {
+      <option [value]="r._id">{{ r.name }}</option>
     }
-  </ul>
+  </select>
+</div>
+
+@if (loading()) {
+  <p class="text-secondary">Loading...</p>
+} @else {
+  <p class="small text-secondary">{{ visible().length }} of {{ total() }} appliances</p>
+  <div class="row g-3">
+    @for (a of visible(); track a._id) {
+      <div class="col-12 col-md-6 col-xl-4">
+        <app-appareil
+          [appareil]="a"
+          (toggled)="toggle(a)"
+          (renamed)="rename(a, $event)"
+          (removed)="remove(a)"
+        />
+      </div>
+    } @empty {
+      <div class="col-12">
+        <div class="panel text-center text-secondary">No appliances match your filters.</div>
+      </div>
+    }
+  </div>
 }

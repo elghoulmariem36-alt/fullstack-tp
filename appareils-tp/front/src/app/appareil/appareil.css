@@ -1,0 +1,49 @@
+:host {
+  display: block;
+}
+
+.appareil {
+  padding: 1rem 1.1rem;
+  border: 1px solid #e5e7eb;
+  border-left: 5px solid #d1d5db;
+  border-radius: 0.6rem;
+  background: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.appareil.on {
+  border-left-color: #f59e0b;
+  box-shadow: 0 0.25rem 0.9rem rgba(245, 158, 11, 0.15);
+}
+
+.info {
+  flex: 1;
+  min-width: 0;
+}
+
+.room {
+  display: inline-block;
+  padding: 0.1rem 0.6rem;
+  border-radius: 999px;
+  background: #fef3c7;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #92400e;
+}
+
+.room.muted {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.state {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #9ca3af;
+}
+
+.on .state {
+  color: #b45309;
+}

@@ -1,22 +1,43 @@
-<nav class="navbar navbar-expand navbar-dark bg-primary mb-3">
-  <div class="container">
-    <a class="navbar-brand" routerLink="/home">Appareils</a>
-    <ul class="navbar-nav me-auto">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/appareils" routerLinkActive="active">Appliances</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/contact" routerLinkActive="active">Contact</a>
-      </li>
-    </ul>
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/login" routerLinkActive="active">Login</a>
-      </li>
-    </ul>
-  </div>
-</nav>
+<div class="d-flex flex-column min-vh-100">
+  <header class="topbar">
+    <nav class="navbar navbar-expand-md navbar-dark container">
+      <a class="navbar-brand" routerLink="/home" (click)="close()">Home<span>Hub</span></a>
 
-<div class="container">
-  <router-outlet />
+      <button
+        class="navbar-toggler"
+        type="button"
+        aria-label="Toggle navigation"
+        [attr.aria-expanded]="open()"
+        (click)="toggle()"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="navbar-collapse collapse" [class.show]="open()">
+        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/home" routerLinkActive="active" (click)="close()">Overview</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/appareils" routerLinkActive="active" (click)="close()">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/contact" routerLinkActive="active" (click)="close()">Contact</a>
+          </li>
+        </ul>
+        <a class="btn btn-outline-light btn-sm" routerLink="/login" (click)="close()">Sign in</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container flex-grow-1 py-4">
+    <router-outlet />
+  </main>
+
+  <footer class="foot">
+    <div class="container d-flex flex-wrap justify-content-between gap-2">
+      <span>&copy; HomeHub. Smart appliance manager.</span>
+      <span>Angular, Express and MongoDB</span>
+    </div>
+  </footer>
 </div>

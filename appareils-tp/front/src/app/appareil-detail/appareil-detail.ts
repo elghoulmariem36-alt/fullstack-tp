@@ -29,10 +29,20 @@ export class AppareilDetail {
         },
         error: () => {
           this.appareil.set(null);
-          this.error.set('Appliance not found');
+          this.error.set('Appliance not found.');
           this.loading.set(false);
         },
       });
+    });
+  }
+
+  toggle() {
+    const a = this.appareil();
+    if (!a) return;
+    const status: 'On' | 'Off' = a.status === 'On' ? 'Off' : 'On';
+    this.service.updateAppareil(a._id, { name: a.name, status }).subscribe({
+      next: (updated) => this.appareil.set(updated),
+      error: () => this.error.set('The status could not be changed.'),
     });
   }
 }

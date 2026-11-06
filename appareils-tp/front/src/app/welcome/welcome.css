@@ -1,0 +1,43 @@
+.hero {
+  padding: 3rem 2rem;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, #111827 0%, #1f2937 60%, #78350f 100%);
+  color: #fff;
+}
+
+.hero .eyebrow {
+  color: #fbbf24;
+}
+
+.hero-text {
+  max-width: 34rem;
+  color: #d1d5db;
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  background: #fff;
+}
+
+.tile-on {
+  border-color: #fcd34d;
+  background: #fffbeb;
+}
+
+.tile-value {
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.tile-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #6b7280;
+}

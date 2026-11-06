@@ -11,10 +11,9 @@ import { AppareilModel } from '../models/appareil.model';
 })
 export class Appareil {
   appareil = input.required<AppareilModel>();
-  switchOn = output<void>();
-  switchOff = output<void>();
-  remove = output<void>();
-  rename = output<string>();
+  toggled = output<void>();
+  renamed = output<string>();
+  removed = output<void>();
 
   editing = signal(false);
   draft = '';
@@ -26,7 +25,7 @@ export class Appareil {
 
   save() {
     const name = this.draft.trim();
-    if (name) this.rename.emit(name);
+    if (name) this.renamed.emit(name);
     this.editing.set(false);
   }
 }

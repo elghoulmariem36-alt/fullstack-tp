@@ -1,0 +1,40 @@
+.back {
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.detail {
+  padding: 2rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  background: #fff;
+}
+
+.room {
+  display: inline-block;
+  padding: 0.15rem 0.7rem;
+  border-radius: 999px;
+  background: #fef3c7;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #92400e;
+}
+
+.big {
+  font-size: 1.6rem;
+}
+
+.pill {
+  display: inline-block;
+  padding: 0.1rem 0.7rem;
+  border-radius: 999px;
+  background: #f3f4f6;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #6b7280;
+}
+
+.pill.on {
+  background: #fef3c7;
+  color: #92400e;
+}

@@ -1,0 +1,48 @@
+.stat {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1.25rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  background: #fff;
+}
+
+.stat.on {
+  border-color: #fcd34d;
+  background: #fffbeb;
+}
+
+.stat .v {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.stat .l {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+.panel {
+  padding: 1.25rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  background: #fff;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.search {
+  flex: 1 1 200px;
+}
+
+.room-select {
+  width: auto;
+}

@@ -1,2 +1,33 @@
-<h2>Home</h2>
-<app-premier />
+<section class="hero">
+  <p class="eyebrow mb-2">Welcome home</p>
+  <h1 class="display-5 fw-bold">Every appliance,<br />one dashboard.</h1>
+  <p class="lead hero-text">
+    Switch devices on or off, organise them by room and keep an eye on what is running.
+  </p>
+  <a class="btn btn-primary btn-lg" routerLink="/appareils">Open the dashboard</a>
+</section>
+
+@if (failed()) {
+  <div class="alert alert-warning mt-4">The server is not reachable right now.</div>
+}
+
+<section class="row g-3 mt-2">
+  <div class="col-sm-4">
+    <div class="tile">
+      <span class="tile-value">{{ total() }}</span>
+      <span class="tile-label">Appliances</span>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="tile tile-on">
+      <span class="tile-value">{{ active() }}</span>
+      <span class="tile-label">Running now</span>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="tile">
+      <span class="tile-value">{{ roomCount() }}</span>
+      <span class="tile-label">Rooms</span>
+    </div>
+  </div>
+</section>
