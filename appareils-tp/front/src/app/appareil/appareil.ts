@@ -1,7 +1,8 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, computed, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AppareilModel } from '../models/appareil.model';
+import { applianceIcon } from '../shared/appliance-icon';
 
 @Component({
   selector: 'app-appareil',
@@ -15,6 +16,7 @@ export class Appareil {
   renamed = output<string>();
   removed = output<void>();
 
+  icon = computed(() => applianceIcon(this.appareil().name));
   editing = signal(false);
   draft = '';
 
