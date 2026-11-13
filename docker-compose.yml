@@ -18,6 +18,7 @@ services:
 
   api:
     build: ./api
+    restart: unless-stopped
     environment:
       DATABASE_URL: postgresql://app:app@db:5432/shop?schema=public
       PORT: 4000
@@ -30,6 +31,7 @@ services:
 
   ngapp:
     build: ./ngapp
+    restart: unless-stopped
     ports:
       - "4200:80"
     depends_on:
@@ -37,6 +39,7 @@ services:
 
   nxapp:
     build: ./nxapp
+    restart: unless-stopped
     environment:
       API_URL: http://api:4000/api
     ports:
