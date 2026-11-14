@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { useCart } from "@/lib/cart";
 
 const links = [
   { href: "/", label: "Home" },
@@ -13,6 +14,7 @@ const links = [
 export default function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const { count } = useCart();
 
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
@@ -53,6 +55,22 @@ export default function Header() {
               </Link>
             </li>
           ))}
+          <li>
+            <Link
+              href="/cart"
+              onClick={() => setOpen(false)}
+              className={`flex items-center gap-2 rounded px-2 py-1 text-sm font-medium transition-colors ${
+                isActive("/cart") ? "text-brand" : "text-slate-600 hover:text-slate-900"
+              }`}
+            >
+              Cart
+              {count > 0 && (
+                <span className="rounded-full bg-brand px-2 py-0.5 text-xs font-semibold text-white">
+                  {count}
+                </span>
+              )}
+            </Link>
+          </li>
           <li>
             <Link
               href="/login"

@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { Home } from './home/home';
 import { Login } from './login/login';
 import { Contact } from './contact/contact';
+import { Cart } from './cart/cart';
 import { Products } from './products/products';
 import { ProductDetail } from './product-detail/product-detail';
 import { Admin } from './admin/admin';
@@ -15,8 +16,10 @@ export const routes: Routes = [
   { path: 'products/:id', component: ProductDetail, title: 'Product | Bazar' },
   { path: 'contact', component: Contact, title: 'Contact | Bazar' },
   { path: 'contact/:id', component: Contact, title: 'Contact | Bazar' },
+  { path: 'cart', component: Cart, title: 'Cart | Bazar' },
   { path: 'login', component: Login, title: 'Sign in | Bazar' },
   { path: 'admin', component: Admin, title: 'Admin | Bazar', canActivate: [adminGuard] },
   { path: 'tp1', component: Tp1, title: 'TP1 demos | Bazar' },
   { path: '**', component: NotFound, title: 'Not found | Bazar' },
 ];
+

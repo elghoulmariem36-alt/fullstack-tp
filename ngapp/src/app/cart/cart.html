@@ -1,0 +1,78 @@
+<p class="eyebrow mb-1">Your cart</p>
+<h1 class="fw-bold mb-4">Shopping cart</h1>
+
+@if (cart.items().length === 0) {
+  <div class="empty text-center p-5">
+    <p class="fs-5 fw-semibold mb-1">Your cart is empty</p>
+    <p class="text-secondary">Browse the catalogue and add a few products.</p>
+    <a class="btn btn-primary" routerLink="/products">Browse the catalogue</a>
+  </div>
+} @else {
+  <div class="row g-4">
+    <div class="col-lg-8">
+      <div class="d-flex flex-column gap-3">
+        @for (l of cart.items(); track l.id) {
+          <div class="line">
+            <a [routerLink]="['/products', l.id]" class="thumb">
+              <img [src]="l.thumbnail" [alt]="l.title" />
+            </a>
+
+            <div class="grow">
+              <a [routerLink]="['/products', l.id]" class="title">{{ l.title }}</a>
+              <div class="small text-secondary">{{ l.priceCents / 100 | currency }} each</div>
+              @if (l.quantity >= maxFor(l.stock)) {
+                <div class="small text-warning-emphasis">Maximum available</div>
+              }
+            </div>
+
+            <div class="btn-group" role="group" [attr.aria-label]="'Quantity of ' + l.title">
+              <button
+                type="button"
+                class="btn btn-outline-secondary btn-sm"
+                aria-label="Decrease quantity"
+                [disabled]="l.quantity <= 1"
+                (click)="cart.setQuantity(l.id, l.quantity - 1)"
+              >&minus;</button>
+              <span class="btn btn-sm disabled qty">{{ l.quantity }}</span>
+              <button
+                type="button"
+                class="btn btn-outline-secondary btn-sm"
+                aria-label="Increase quantity"
+                [disabled]="l.quantity >= maxFor(l.stock)"
+                (click)="cart.setQuantity(l.id, l.quantity + 1)"
+              >+</button>
+            </div>
+
+            <div class="line-total">{{ (l.priceCents * l.quantity) / 100 | currency }}</div>
+
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-danger"
+              [attr.aria-label]="'Remove ' + l.title"
+              (click)="cart.remove(l.id)"
+            >Remove</button>
+          </div>
+        }
+      </div>
+
+      <button type="button" class="btn btn-link text-danger px-0 mt-2" (click)="confirmClear()">
+        Empty the cart
+      </button>
+    </div>
+
+    <div class="col-lg-4">
+      <aside class="summary">
+        <h2 class="h5 fw-bold mb-3">Summary</h2>
+        <dl class="d-flex justify-content-between mb-2">
+          <dt class="fw-normal">Items</dt>
+          <dd class="mb-0">{{ cart.count() }}</dd>
+        </dl>
+        <dl class="d-flex justify-content-between total">
+          <dt>Total</dt>
+          <dd class="mb-0">{{ cart.totalCents() / 100 | currency }}</dd>
+        </dl>
+        <a class="btn btn-outline-secondary w-100" routerLink="/products">Continue shopping</a>
+      </aside>
+    </div>
+  </div>
+}

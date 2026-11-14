@@ -29,14 +29,18 @@
             <th scope="row">Availability</th>
             <td>@if (stock(); as s) { <span class="badge rounded-pill" [class]="s.cls">{{ s.text }}</span> }</td>
           </tr>
+          <tr><th scope="row">In your cart</th><td>{{ inCart() }}</td></tr>
         </tbody>
       </table>
 
       <div class="d-flex flex-wrap gap-2">
-        <a class="btn btn-primary" routerLink="/products" [queryParams]="{ category: p.category.name }">
+        <button type="button" class="btn btn-primary" [disabled]="!canAdd()" (click)="add(p)">
+          {{ buttonLabel() }}
+        </button>
+        <a class="btn btn-outline-secondary" routerLink="/cart">View cart</a>
+        <a class="btn btn-outline-secondary" routerLink="/products" [queryParams]="{ category: p.category.name }">
           More in {{ label(p.category.name) }}
         </a>
-        <a class="btn btn-outline-secondary" routerLink="/products">All products</a>
       </div>
     </div>
   </div>

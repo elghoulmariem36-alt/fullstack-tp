@@ -2,6 +2,8 @@ import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 
+import { CartService } from '../cart/cart.service';
+
 @Component({
   selector: 'app-header',
   imports: [RouterLink, RouterLinkActive],
@@ -9,6 +11,7 @@ import { AuthService } from '../auth/auth.service';
   styleUrl: './header.css',
 })
 export class Header {
+  cart = inject(CartService);
   auth = inject(AuthService);
   private router = inject(Router);
   open = signal(false);
@@ -27,3 +30,4 @@ export class Header {
     this.router.navigate(['/']);
   }
 }
+

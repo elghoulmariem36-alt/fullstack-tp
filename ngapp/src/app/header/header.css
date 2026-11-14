@@ -129,3 +129,16 @@
 .who + .signin {
   margin-top: 0.5rem;
 }
+
+.cart-badge {
+  display: inline-block;
+  min-width: 1.4rem;
+  margin-left: 0.4rem;
+  padding: 0 0.4rem;
+  border-radius: 999px;
+  background: #2dd4bf;
+  color: #0f172a;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-align: center;
+}

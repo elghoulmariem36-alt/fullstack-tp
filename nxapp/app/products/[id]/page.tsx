@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Product } from "@/types/product";
+import AddToCart from "@/components/AddToCart";
 import { categoryLabel, formatPrice, stockLabel } from "@/lib/format";
 
 export default async function ProductDetail({
@@ -69,12 +70,18 @@ export default async function ProductDetail({
             {stock.text}
           </span>
           <p className="leading-relaxed text-slate-600">{product.description}</p>
-          <Link
-            href="/products"
-            className="mt-auto w-fit rounded-lg border border-slate-300 px-5 py-2 font-medium hover:bg-slate-50"
-          >
-            &larr; Back to the catalogue
-          </Link>
+
+          <div className="mt-auto flex flex-wrap items-center gap-3">
+            <div className="w-full sm:w-60">
+              <AddToCart product={product} size="large" />
+            </div>
+            <Link
+              href="/cart"
+              className="rounded-lg border border-slate-300 px-5 py-3 font-medium hover:bg-slate-50"
+            >
+              View cart
+            </Link>
+          </div>
         </div>
       </div>
     </div>

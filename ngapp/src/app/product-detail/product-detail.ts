@@ -4,6 +4,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Product } from '../models/product';
 import { ProductService } from '../product.service';
+import { CartService, MAX_PER_LINE } from '../cart/cart.service';
 import { categoryLabel, stockLabel } from '../shared/format';
 
 @Component({
@@ -15,14 +16,32 @@ import { categoryLabel, stockLabel } from '../shared/format';
 export class ProductDetail {
   private route = inject(ActivatedRoute);
   private service = inject(ProductService);
+  cart = inject(CartService);
 
   label = categoryLabel;
   product = signal<Product | null>(null);
   loading = signal(true);
   error = signal('');
+  added = signal(false);
+
   stock = computed(() => {
     const p = this.product();
     return p ? stockLabel(p.stock) : null;
+  });
+  inCart = computed(() => {
+    const p = this.product();
+    return p ? this.cart.quantityOf(p.id) : 0;
+  });
+  canAdd = computed(() => {
+    const p = this.product();
+    return !!p && p.stock > 0 && this.inCart() < Math.min(p.stock, MAX_PER_LINE);
+  });
+  buttonLabel = computed(() => {
+    const p = this.product();
+    if (!p || p.stock === 0) return 'Out of stock';
+    if (this.added()) return 'Added to cart';
+    if (!this.canAdd()) return 'Maximum in cart';
+    return 'Add to cart';
   });
 
   constructor() {
@@ -45,5 +64,11 @@ export class ProductDetail {
         },
       });
     });
+  }
+
+  add(p: Product) {
+    this.cart.add(p);
+    this.added.set(true);
+    setTimeout(() => this.added.set(false), 1200);
   }
 }
