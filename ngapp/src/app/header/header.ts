@@ -1,5 +1,6 @@
-import { Component, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, inject, signal } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -8,6 +9,8 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './header.css',
 })
 export class Header {
+  auth = inject(AuthService);
+  private router = inject(Router);
   open = signal(false);
 
   toggle() {
@@ -16,5 +19,11 @@ export class Header {
 
   close() {
     this.open.set(false);
+  }
+
+  logout() {
+    this.auth.logout();
+    this.close();
+    this.router.navigate(['/']);
   }
 }

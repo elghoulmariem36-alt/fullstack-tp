@@ -1,1 +1,85 @@
-<p>login works!</p>
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-5">
+    <p class="eyebrow text-center mb-1">Account</p>
+    <h1 class="fw-bold text-center mb-4">
+      {{ auth.isLoggedIn() ? 'Welcome back' : mode() === 'login' ? 'Sign in' : 'Create an account' }}
+    </h1>
+
+    <div class="card border-0 shadow-sm">
+      <div class="card-body p-4">
+        @if (auth.user(); as u) {
+          <div class="text-center">
+            <p class="mb-1">You are signed in as</p>
+            <p class="fw-bold mb-2">{{ u.email }}</p>
+            <span class="badge text-bg-dark mb-3">{{ u.role }}</span>
+            <div class="d-flex justify-content-center gap-2">
+              @if (auth.isAdmin()) {
+                <a class="btn btn-primary" routerLink="/admin">Open the admin</a>
+              }
+              <button class="btn btn-outline-secondary" type="button" (click)="logout()">Sign out</button>
+            </div>
+          </div>
+        } @else {
+          @if (notice()) {
+            <div class="alert alert-info">{{ notice() }}</div>
+          }
+          @if (error()) {
+            <div class="alert alert-danger" role="alert">{{ error() }}</div>
+          }
+
+          <form #f="ngForm" (ngSubmit)="submit()" novalidate>
+            <div class="mb-3">
+              <label class="form-label" for="email">Email</label>
+              <input
+                id="email"
+                type="email"
+                class="form-control"
+                name="email"
+                [(ngModel)]="email"
+                #em="ngModel"
+                required
+                email
+                autocomplete="username"
+                [class.is-invalid]="em.invalid && (em.touched || f.submitted)"
+              />
+              <div class="invalid-feedback">Enter a valid email address.</div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label" for="password">Password</label>
+              <input
+                id="password"
+                type="password"
+                class="form-control"
+                name="password"
+                [(ngModel)]="password"
+                #pw="ngModel"
+                required
+                [minlength]="mode() === 'register' ? 8 : 1"
+                [attr.autocomplete]="mode() === 'login' ? 'current-password' : 'new-password'"
+                [class.is-invalid]="pw.invalid && (pw.touched || f.submitted)"
+              />
+              <div class="invalid-feedback">
+                {{ mode() === 'register' ? 'At least 8 characters.' : 'Enter your password.' }}
+              </div>
+            </div>
+
+            <button class="btn btn-primary w-100" type="submit" [disabled]="loading() || f.invalid">
+              {{ loading() ? 'Please wait...' : mode() === 'login' ? 'Sign in' : 'Create my account' }}
+            </button>
+          </form>
+
+          <p class="text-center small mt-3 mb-0">
+            @if (mode() === 'login') {
+              No account yet?
+              <a href="#" (click)="switchMode('register'); $event.preventDefault()">Create one</a>
+            } @else {
+              Already registered?
+              <a href="#" (click)="switchMode('login'); $event.preventDefault()">Sign in</a>
+            }
+          </p>
+        }
+      </div>
+    </div>
+  </div>
+</div>

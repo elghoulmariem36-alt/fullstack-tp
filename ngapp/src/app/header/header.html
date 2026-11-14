@@ -10,7 +10,15 @@
     <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="close()">Home</a>
     <a routerLink="/products" routerLinkActive="active" (click)="close()">Products</a>
     <a routerLink="/contact" routerLinkActive="active" (click)="close()">Contact</a>
-    <a routerLink="/admin" routerLinkActive="active" (click)="close()">Admin</a>
-    <a class="signin" routerLink="/login" routerLinkActive="active" (click)="close()">Sign in</a>
+    @if (auth.isAdmin()) {
+      <a routerLink="/admin" routerLinkActive="active" (click)="close()">Admin</a>
+    }
+
+    @if (auth.user(); as u) {
+      <span class="who">{{ u.email }} ({{ u.role }})</span>
+      <button class="signin" type="button" (click)="logout()">Sign out</button>
+    } @else {
+      <a class="signin" routerLink="/login" routerLinkActive="active" (click)="close()">Sign in</a>
+    }
   </nav>
 </aside>
